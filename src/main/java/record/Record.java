@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public abstract class Record {
     protected static Connection getConnection() {
         try {
-            Class.forName("org.postgres.Driver");
+            Class.forName("org.postgresql.Driver");
 
             final String username = System.getenv("POSTGRES_USERNAME");
             final String password = System.getenv("POSTGRES_PASSWORD");
@@ -17,7 +17,7 @@ public abstract class Record {
 
             final String sslString = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
-            String dbUrl = String.format("jdbc:postgres://%s%s%s",
+            String dbUrl = String.format("jdbc:postgresql://%s/%s%s",
                     host,
                     databaseName,
                     sslString);
