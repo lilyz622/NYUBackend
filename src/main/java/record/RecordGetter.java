@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RecordGetter extends Record {
     public static String getUserModels(String userId) throws SQLException {
@@ -35,4 +36,8 @@ public class RecordGetter extends Record {
         }
         return null;
     }
+
+
+
+
 }
