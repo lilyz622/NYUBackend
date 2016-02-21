@@ -1,5 +1,6 @@
 package record;
 
+import json.get.HomeworkJson;
 import json.get.UserJson;
 
 import java.sql.Connection;
@@ -38,6 +39,32 @@ public class RecordGetter extends Record {
     }
 
 
+    /*
+    public static String getHomeworkModels(String homeworkId) throws SQLException {
 
+        final String sqlString = "SELECT assignment, date_due, course_name" + "FROM public.homework WHERE homework_id =?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sqlString)) {
+            preparedStatement.setString(1, homeworkId);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                HomeworkJson messageJson = new HomeworkJson();
+
+                messageJson.setAssignment(result.getString(1));
+                messageJson.setDateDue(result.getString(2));
+                messageJson.setCourseName(result.getString(3));
+
+                return messageJson.toJson();
+            }
+
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
+        return null;
+    }
+    */
 
 }
