@@ -5,6 +5,7 @@ import json.BaseJson;
 
 @SuppressWarnings("unused")
 public class HomeworkJson extends BaseJson{
-    public String assignment;
+    public String description;
     public String dateDue;
+    public String timeDue;
 }

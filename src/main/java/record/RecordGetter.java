@@ -1,6 +1,7 @@
 package record;
 
 import json.get.HomeworkJson;
+import json.get.HomeworkReplyJson;
 import json.get.UserJson;
 
 import java.sql.Connection;
@@ -38,11 +39,17 @@ public class RecordGetter extends Record {
         return null;
     }
 
+    /**
+     * This method returns an object with information for a single homework assignment.
+     *
+     * @param homeworkId
+     * @return
+     * @throws SQLException
+     */
 
-    /*
     public static String getHomeworkModels(String homeworkId) throws SQLException {
-
-        final String sqlString = "SELECT assignment, date_due, course_name" + "FROM public.homework WHERE homework_id =?";
+        final String sqlString = "SELECT assignment, date_due, course_name " +
+                "FROM public.homework WHERE homework_id =?";
 
         try (Connection conn = getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sqlString)) {
@@ -51,13 +58,13 @@ public class RecordGetter extends Record {
             ResultSet result = preparedStatement.executeQuery();
 
             if (result.next()) {
-                HomeworkJson messageJson = new HomeworkJson();
+                HomeworkJson homeworkJson = new HomeworkJson();
 
-                messageJson.setAssignment(result.getString(1));
-                messageJson.setDateDue(result.getString(2));
-                messageJson.setCourseName(result.getString(3));
+                homeworkJson.setAssignment(result.getString(1));
+                homeworkJson.setDateDue(result.getString(2));
+                homeworkJson.setCourseName(result.getString(3));
 
-                return messageJson.toJson();
+                return homeworkJson.toJson();
             }
 
         } catch (NullPointerException npe) {
@@ -65,6 +72,73 @@ public class RecordGetter extends Record {
         }
         return null;
     }
-    */
 
+    /**
+     * @param hrId
+     * @return homeworkReplyJson.toJson()
+     * @throws SQLException
+     */
+
+    public static String getHomeworkReplyModels(String hrId) throws SQLException {
+        final String sqlString = "SELECT comment_content, comment_time, first_name, last_name, status, score, homework " +
+                "FROM public.homework_reply WHERE hr_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sqlString)) {
+            preparedStatement.setString(1, hrId);
+
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                HomeworkReplyJson homeworkReplyJson = new HomeworkReplyJson();
+
+                homeworkReplyJson.setCommentContent(result.getString(1));
+                homeworkReplyJson.setCommentTime(result.getString(2));
+                homeworkReplyJson.setFirstName(result.getString(3));
+                homeworkReplyJson.setLastName(result.getString(4));
+                homeworkReplyJson.setStatus(result.getBoolean(5));
+                homeworkReplyJson.setScore(result.getInt(6));
+                homeworkReplyJson.setHomework(result.getString(7));
+
+                return homeworkReplyJson.toJson();
+            }
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @param courseId
+     * @return ArrayList of HomeworkJson objects.
+     * @throws SQLException
+     */
+
+    public static ArrayList<HomeworkJson> getHomeworkOfCourseModel(String courseId) throws SQLException {
+        final String sqlString = "SELECT assignment, date_due, course_name " +
+                "FROM public.homework_course WHERE course_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sqlString)) {
+            preparedStatement.setString(1, courseId);
+
+            ResultSet result = preparedStatement.executeQuery();
+            ArrayList<HomeworkJson> arrayList = new ArrayList<HomeworkJson>();
+
+            while (result.next()) {
+                HomeworkJson homeworkJson = new HomeworkJson();
+                homeworkJson.setAssignment(result.getString(1));
+                homeworkJson.setDateDue(result.getString(2));
+                homeworkJson.setCourseName(result.getString(3));
+
+                arrayList.add(homeworkJson);
+            }
+            return arrayList;
+
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
+        return null;
+    }
 }
